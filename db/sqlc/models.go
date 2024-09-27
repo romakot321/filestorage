@@ -16,3 +16,11 @@ type File struct {
 	CreatedAt time.Time
 	UpdatedAt time.Time
 }
+
+type User struct {
+	ID           int32
+	PasswordHash string
+	Name         string
+	CreatedAt    time.Time
+	UpdatedAt    time.Time
+}

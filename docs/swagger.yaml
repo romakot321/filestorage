@@ -1,0 +1,146 @@
+basePath: /
+definitions:
+  db.File:
+    properties:
+      createdAt:
+        type: string
+      filename:
+        type: string
+      ownerID:
+        type: integer
+      updatedAt:
+        type: string
+    type: object
+  web.LoginSchema:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    required:
+    - password
+    - username
+    type: object
+  web.RegisterSchema:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    required:
+    - password
+    - username
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: Written in golang
+  title: Filestorage by http
+  version: "1.0"
+paths:
+  /auth/login/:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Login schema
+        in: body
+        name: schema
+        required: true
+        schema:
+          $ref: '#/definitions/web.LoginSchema'
+      produces:
+      - application/json
+      responses: {}
+      summary: Do Log in
+      tags:
+      - auth
+  /auth/register/:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Register schema
+        in: body
+        name: schema
+        required: true
+        schema:
+          $ref: '#/definitions/web.RegisterSchema'
+      produces:
+      - application/json
+      responses: {}
+      summary: Register
+      tags:
+      - auth
+  /files:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/db.File'
+            type: array
+      security:
+      - ApiKeyAuth: []
+      summary: Show a list of accessable files
+      tags:
+      - files
+    post:
+      consumes:
+      - multipart/form-data
+      parameters:
+      - description: File
+        in: formData
+        name: file
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/db.File'
+      security:
+      - ApiKeyAuth: []
+      summary: Create a file
+      tags:
+      - files
+  /files/{filename}:
+    get:
+      consumes:
+      - multipart/form-data
+      parameters:
+      - description: Filename UUID
+        in: path
+        name: filename
+        required: true
+        type: string
+      produces:
+      - multipart/form-data
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: binary
+      security:
+      - ApiKeyAuth: []
+      summary: Stream of file content
+      tags:
+      - files
+securityDefinitions:
+  ApiKeyAuth:
+    description: Description for what is this security definition being used
+    in: header
+    name: Token
+    type: apiKey
+  OAuth2Password:
+    flow: password
+    tokenUrl: http://localhost:8080/auth/login
+    type: oauth2
+swagger: "2.0"

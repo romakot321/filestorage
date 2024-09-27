@@ -11,6 +11,21 @@ import (
   "github.com/spf13/viper"
 )
 
+//	@title			Filestorage by http
+//	@version		1.0
+//	@description	Written in golang
+
+//	@host		localhost:8080
+//	@BasePath	/
+
+//	@securityDefinitions.apikey	ApiKeyAuth
+//	@in							header
+//	@name						Token
+//	@description				Description for what is this security definition being used
+
+//	@securitydefinitions.oauth2.password	OAuth2Password
+//	@tokenUrl								http://localhost:8080/auth/login
+
 type Config struct {
     DbDriver         string `mapstructure:"DB_DRIVER"`
     DbSource         string `mapstructure:"DB_SOURCE"`

@@ -10,7 +10,6 @@ type FileSchema struct {
 }
 
 type CreateFileSchema struct {
-  OwnerID  int32                 `json:"owner_id" binding:"required"`
   File     *multipart.FileHeader `form:"file" binding:"required"`
 }
 
